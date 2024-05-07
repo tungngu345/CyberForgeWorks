@@ -1,16 +1,17 @@
-function minDepth(root) {
-  if (!root) return 0;
-  const queue = [root];
-  let depth = 1;
-  while (queue.length) {
-    const size = queue.length;
-    for (let i = 0; i < size; i++) {
-      const node = queue.shift();
-      if (!node.left && !node.right) return depth;
-      if (node.left) queue.push(node.left);
-      if (node.right) queue.push(node.right);
+function countPrimes(n) {
+  const isPrime = new Array(n).fill(true);
+  isPrime[0] = false;
+  isPrime[1] = false;
+  for (let i = 2; i * i < n; i++) {
+    if (isPrime[i]) {
+      for (let j = i * i; j < n; j += i) {
+        isPrime[j] = false;
+      }
     }
-    depth++;
   }
-  return depth;
+  let count = 0;
+  for (let i = 2; i < n; i++) {
+    if (isPrime[i]) count++;
+  }
+  return count;
 }
