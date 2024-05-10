@@ -1,1 +1,2 @@
-const reverseWords = (str) => str.split(" ").reverse().join(" ");
+const randomNumber = (min, max) =>
+  Math.floor(Math.random() * (max - min + 1) + min);
