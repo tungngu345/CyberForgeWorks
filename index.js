@@ -1,30 +1,16 @@
-function maximalRectangle(matrix) {
-  if (matrix.length === 0) return 0;
-  const rows = matrix.length;
-  const cols = matrix[0].length;
-  const heights = Array(cols).fill(0);
-  let maxArea = 0;
-  for (let i = 0; i < rows; i++) {
-    for (let j = 0; j < cols; j++) {
-      heights[j] = matrix[i][j] === "1" ? heights[j] + 1 : 0;
+const radixSort = (arr) => {
+  const getDigit = (num, place) =>
+    Math.floor(Math.abs(num) / Math.pow(10, place)) % 10;
+  const digitCount = (num) =>
+    num === 0 ? 1 : Math.floor(Math.log10(Math.abs(num))) + 1;
+  const mostDigits = (arr) => Math.max(...arr.map((num) => digitCount(num)));
+  const maxDigits = mostDigits(arr);
+  for (let k = 0; k < maxDigits; k++) {
+    let digitBuckets = Array.from({ length: 10 }, () => []);
+    for (let i = 0; i < arr.length; i++) {
+      digitBuckets[getDigit(arr[i], k)].push(arr[i]);
     }
-    maxArea = Math.max(maxArea, largestRectangleArea(heights));
+    arr = [].concat(...digitBuckets);
   }
-  return maxArea;
-  function largestRectangleArea(heights) {
-    const stack = [];
-    let maxArea = 0;
-    for (let i = 0; i <= heights.length; i++) {
-      while (
-        stack.length !== 0 &&
-        (i === heights.length || heights[i] < heights[stack[stack.length - 1]])
-      ) {
-        const height = heights[stack.pop()];
-        const width = stack.length === 0 ? i : i - stack[stack.length - 1] - 1;
-        maxArea = Math.max(maxArea, height * width);
-      }
-      stack.push(i);
-    }
-    return maxArea;
-  }
-}
+  return arr;
+};
